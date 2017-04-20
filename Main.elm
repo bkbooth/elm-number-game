@@ -18,7 +18,7 @@ main =
 
 init : ( Model, Cmd Msg )
 init =
-    Model 0 0 False False
+    Model 0 0 False False False
         ! []
 
 
