@@ -1,14 +1,14 @@
 module Update exposing (..)
 
 import Random
-import Model exposing (Model)
+import Model exposing (..)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         StartGame ->
-            Model 0 0 True False False
+            Model Playing 0 0 []
                 ! [ Random.generate UpdateNumber <| Random.int 1 10
                   ]
 
@@ -16,22 +16,38 @@ update msg model =
             { model | number = number }
                 ! []
 
-        UpdatePlayerGuess playerGuess ->
-            { model | playerGuess = playerGuess }
-                ! []
+        UpdatePlayerGuess playerGuessString ->
+            let
+                playerGuess =
+                    case (String.toInt playerGuessString) of
+                        Ok value ->
+                            value
 
-        UpdateSubmitted isSubmitted ->
-            { model | submitted = isSubmitted }
-                ! []
+                        Err _ ->
+                            0
+            in
+                { model | playerGuess = playerGuess }
+                    ! []
 
-        UpdateCorrect isCorrect ->
-            { model | correct = isCorrect }
-                ! []
+        SubmitGuess ->
+            let
+                newState =
+                    case (model.playerGuess == model.number) of
+                        True ->
+                            Finished
+
+                        False ->
+                            model.state
+            in
+                { model
+                    | guesses = model.playerGuess :: model.guesses
+                    , state = newState
+                }
+                    ! []
 
 
 type Msg
     = StartGame
     | UpdateNumber Int
-    | UpdatePlayerGuess Int
-    | UpdateSubmitted Bool
-    | UpdateCorrect Bool
+    | UpdatePlayerGuess String
+    | SubmitGuess

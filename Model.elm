@@ -2,9 +2,14 @@ module Model exposing (..)
 
 
 type alias Model =
-    { number : Int
+    { state : GameState
+    , number : Int
     , playerGuess : Int
-    , started : Bool
-    , submitted : Bool
-    , correct : Bool
+    , guesses : List Int
     }
+
+
+type GameState
+    = Initial
+    | Playing
+    | Finished
