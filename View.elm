@@ -24,7 +24,6 @@ view model =
         div [ id "app-root" ]
             [ h1 [] [ text "Number Game" ]
             , currentView
-            , debugView model
             ]
 
 
@@ -74,21 +73,3 @@ guessesView : Model -> Html Msg
 guessesView model =
     div [] <|
         List.map (\guess -> p [] [ text ("You guessed " ++ (toString guess)) ]) model.guesses
-
-
-debugView : Model -> Html Msg
-debugView model =
-    let
-        styles =
-            style
-                [ ( "background-color", "LightCoral" )
-                , ( "margin-top", "100px" )
-                ]
-    in
-        div [ styles ]
-            [ h3 [] [ text "Debug..." ]
-            , p [] [ text ("State: " ++ (toString model.state)) ]
-            , p [] [ text ("Number: " ++ (toString model.number)) ]
-            , p [] [ text ("Player Guess: " ++ (toString model.playerGuess)) ]
-            , p [] [ text ("Guesses: " ++ (toString model.guesses)) ]
-            ]
