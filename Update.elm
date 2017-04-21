@@ -16,18 +16,9 @@ update msg model =
             { model | number = number }
                 ! []
 
-        UpdatePlayerGuess playerGuessString ->
-            let
-                playerGuess =
-                    case (String.toInt playerGuessString) of
-                        Ok value ->
-                            value
-
-                        Err _ ->
-                            0
-            in
-                { model | playerGuess = playerGuess }
-                    ! []
+        UpdatePlayerGuess playerGuess ->
+            { model | playerGuess = playerGuess }
+                ! []
 
         SubmitGuess ->
             let
@@ -49,5 +40,5 @@ update msg model =
 type Msg
     = StartGame
     | UpdateNumber Int
-    | UpdatePlayerGuess String
+    | UpdatePlayerGuess Int
     | SubmitGuess

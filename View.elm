@@ -46,7 +46,7 @@ playingView model =
                 [ type_ "text"
                 , id "player-guess"
                 , value (toString model.playerGuess)
-                , onInput UpdatePlayerGuess
+                , onInput (UpdatePlayerGuess << Result.withDefault 0 << String.toInt)
                 ]
                 []
             ]
