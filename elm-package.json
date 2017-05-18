@@ -4,7 +4,7 @@
     "repository": "https://github.com/bkbooth/elm-number-game.git",
     "license": "BSD3",
     "source-directories": [
-        "."
+        "src/app"
     ],
     "exposed-modules": [],
     "dependencies": {
