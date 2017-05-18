@@ -1,7 +1,7 @@
 module View exposing (..)
 
 import Html exposing (Html, button, div, form, h1, h3, input, label, p, text)
-import Html.Attributes exposing (action, for, id, style, type_, value)
+import Html.Attributes exposing (action, for, id, max, min, style, type_, value)
 import Html.Events exposing (onClick, onInput)
 import Model exposing (..)
 import Update exposing (..)
@@ -29,17 +29,35 @@ view model =
 
 initialView : Model -> Html Msg
 initialView model =
-    p []
-        [ button
-            [ onClick StartGame ]
-            [ text "Start Game" ]
+    div []
+        [ p []
+            [ text ("I'm going to think of a number between 1 and " ++ (toString model.maxNumber) ++ "...")
+            , Html.br [] []
+            , text "(Drag the slider to adjust)"
+            ]
+        , p []
+            [ input
+                [ type_ "range"
+                , onInput (UpdateMaxNumber << Result.withDefault 0 << String.toInt)
+                , value (toString model.maxNumber)
+                , Html.Attributes.min "10"
+                , Html.Attributes.max "1000"
+                , Html.Attributes.step "10"
+                ]
+                []
+            ]
+        , p []
+            [ button
+                [ onClick StartGame ]
+                [ text "Start Game" ]
+            ]
         ]
 
 
 playingView : Model -> Html Msg
 playingView model =
     div []
-        [ p [] [ text "I'm thinking of a number between 1 and 10..." ]
+        [ p [] [ text ("I'm thinking of a number between 1 and " ++ (toString model.maxNumber) ++ "...") ]
         , label [ for "player-guess" ]
             [ text "Are you thinking of: "
             , input
@@ -64,7 +82,7 @@ finishView model =
         , p [] [ text ("It took " ++ (toString <| List.length model.guesses) ++ " guesses") ]
         , guessesView model
         , button
-            [ onClick StartGame ]
+            [ onClick ResetGame ]
             [ text "Play Again?" ]
         ]
 

@@ -1,16 +1,23 @@
 module Update exposing (..)
 
 import Random
-import Model exposing (..)
+import Model exposing (Model)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         StartGame ->
-            Model Playing 0 0 []
-                ! [ Random.generate UpdateNumber <| Random.int 1 10
-                  ]
+            { model | state = Model.Playing }
+                ! [ Random.generate UpdateNumber <| Random.int 1 model.maxNumber ]
+
+        ResetGame ->
+            Model.initialModel
+                ! []
+
+        UpdateMaxNumber maxNumber ->
+            { model | maxNumber = maxNumber }
+                ! []
 
         UpdateNumber number ->
             { model | number = number }
@@ -25,7 +32,7 @@ update msg model =
                 newState =
                     case (model.playerGuess == model.number) of
                         True ->
-                            Finished
+                            Model.Finished
 
                         False ->
                             model.state
@@ -39,6 +46,8 @@ update msg model =
 
 type Msg
     = StartGame
+    | ResetGame
+    | UpdateMaxNumber Int
     | UpdateNumber Int
     | UpdatePlayerGuess Int
     | SubmitGuess

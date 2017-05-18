@@ -1,7 +1,7 @@
 module Main exposing (main)
 
 import Html
-import Model exposing (..)
+import Model exposing (Model)
 import Update exposing (Msg)
 import View
 
@@ -18,7 +18,7 @@ main =
 
 init : ( Model, Cmd Msg )
 init =
-    Model Initial 0 0 []
+    Model.initialModel
         ! []
 
 
