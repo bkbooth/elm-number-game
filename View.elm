@@ -72,4 +72,18 @@ finishView model =
 guessesView : Model -> Html Msg
 guessesView model =
     div [] <|
-        List.map (\guess -> p [] [ text ("You guessed " ++ (toString guess)) ]) model.guesses
+        List.map (\guess -> guessView model guess) model.guesses
+
+
+guessView : Model -> Int -> Html Msg
+guessView model guess =
+    let
+        differenceText =
+            if (guess < model.number) then
+                "too low"
+            else if (guess > model.number) then
+                "too high"
+            else
+                "correct"
+    in
+        p [] [ text ("You guessed " ++ (toString guess) ++ " which was " ++ differenceText) ]
