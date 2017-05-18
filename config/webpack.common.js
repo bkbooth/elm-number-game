@@ -28,7 +28,7 @@ module.exports = function(options) {
           ],
           loader: options.isProd ?
             'elm-webpack-loader' :
-            'elm-hot-loader!elm-webpack-loader?verbose=true&warn=true',
+            'elm-hot-loader!elm-webpack-loader?verbose=true&warn=true&debug=true',
         },
       ]
     },
