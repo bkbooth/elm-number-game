@@ -25,10 +25,20 @@ module.exports = function(options) {
           exclude: [
             /elm-stuff/,
             /node_modules/,
+            /Stylesheets\.elm$/
           ],
           loader: options.isProd ?
             'elm-webpack-loader' :
             'elm-hot-loader!elm-webpack-loader?verbose=true&warn=true&debug=true',
+        },
+
+        {
+          test: /Stylesheets\.elm$/,
+          use: [
+            'style-loader',
+            'css-loader',
+            'elm-css-webpack-loader',
+          ],
         },
       ]
     },
