@@ -1,20 +1,24 @@
 'use strict';
 
+const WEBPACK_MODE = 'production';
+
 const merge = require('webpack-merge');
-const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const { config: commonConfig } = require('./webpack.common')(WEBPACK_MODE);
 
-module.exports = function(options) {
-  const commonConfig = require('./webpack.common')(options);
+module.exports = merge(commonConfig, {
+  mode: WEBPACK_MODE,
+  devtool: 'source-map',
 
-  return merge(commonConfig, {
-    devtool: 'source-map',
-
-    plugins: [
+  optimization: {
+    minimizer: [
       new UglifyJsPlugin({
-        minimize: true,
-        compressor: { warnings: false },
-        mangle: true,
+        uglifyOptions: {
+          minimize: true,
+          compressor: { warnings: false },
+          mangle: true,
+        },
       }),
     ],
-  });
-};
+  },
+});
